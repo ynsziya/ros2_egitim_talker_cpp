@@ -10,7 +10,9 @@ namespace ros2_egitim_talker_cpp
         declare_parameter<double>("publish_period", 1.0);
         double period = get_parameter("publish_period").as_double();
 
-        publisher_ = create_publisher<std_msgs::msg::String>("chatter", 10);
+        auto qos = rclcpp::QoS(rclcpp::KeepLast(10)).reliable();
+
+        publisher_ = create_publisher<std_msgs::msg::String>("chatter", qos);
 
         auto period_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<double>(period));
 

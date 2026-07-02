@@ -6,8 +6,10 @@ namespace ros2_egitim_talker_cpp
 
     EgitimListenerNode::EgitimListenerNode() : Node("egitim_listener")
     {
+        auto qos = rclcpp::QoS(rclcpp::KeepLast(10)).reliable();
+
         subscription_ = create_subscription<std_msgs::msg::String>(
-            "chatter", 10,
+            "chatter", qos,
             std::bind(&EgitimListenerNode::subscription_callback, this, _1)
         );
     }
