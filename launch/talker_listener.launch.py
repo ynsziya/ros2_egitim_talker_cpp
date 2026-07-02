@@ -9,6 +9,9 @@ def generate_launch_description():
         package = 'ros2_egitim_talker_cpp',
         executable = 'egitim_listener',
         output = 'screen',
+        remappings = [
+            ('chatter', '/egitim/chatter'),  # kaynak - hedef
+        ],
     )
 
     period_arg = DeclareLaunchArgument(
@@ -23,12 +26,16 @@ def generate_launch_description():
         package = 'ros2_egitim_talker_cpp',
         executable = 'egitim_talker',
         output = 'screen',
+        remappings = [
+            ('chatter', '/egitim/chatter')
+        ],
         parameters = [{
             'publish_period' : LaunchConfiguration('publish_period'),
         }],
     )
 
     ld = LaunchDescription()
+    ld.add_action(period_arg)
     ld.add_action(listener_cmd) # önce listener - dinleyici hazIr olsun
     ld.add_action(talker_cmd)
 
